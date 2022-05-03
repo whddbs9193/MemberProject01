@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="member.*, util.*, java.sql.*" %>
+<%@ page import="member.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,39 +13,21 @@
 	String id = request.getParameter("id");
 	String pwd = request.getParameter("pwd");
 	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
+	MemberDAO memberDAO = MemberDAO.getInstance();
+	int cnt = memberDAO.login(id, pwd);
 	
-	String sql ="select * from member where id = ?";
-	try{
-		conn = JDBCUtil.getConnection();
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, id);
-		rs = pstmt.executeQuery();
-		
-		out.print("들어왔음");
-		out.print("<script>");
-		if(rs.next()){ // 아이디가 존재할 때
-			String dbpwd = rs.getString("pwd");
-			if(pwd.equals(dbpwd)){ // 아이디, 비밀번호가 모두 일치할 때 
-				// 해당 아이디를 세션으로 저장
-				
-				session.setAttribute("memberId",id);
-				out.print("location='../borad/boradList.jsp'");
-			}else{ // 아이디는 있지만, 그 아이디의 비밀번호가 일치하지 않을 때
-				out.print("alert(`비밀번호가 다릅니다.`); history.back();");
-			}
-		}else{ // 아이디가 존재하지 않을 때
-			out.print("alert(`아이디가 존재하지 않습니다.`); history.back();");
+	//-1: 아이디가 없다, 0 아이디는 있고 비밀번호가 다르다, 1 아이디,비밀번호 모두 일치
+	out.print("<script>");
+		if(cnt == 1){ // 아이디가 있고, 비밀번호가 일치할 때 -> 중요한 점. 세션생성
+			session.setAttribute("memberId", id);
+			out.print("alert('로그인 되었습니다.');");
+			out.print("location='../board/boardList.jsp'");
+		}else if(cnt == 0){ // 아이디는 있고, 비밀번호가 일치하지 않을 때
+			out.print("alert('비밀번호가 일치하지 않습니다.');history.back();");
+		}else if(cnt == -1){ // 아이디가 없을 때
+			out.print("alert('아이디가 존재하지 않습니다.');history.back();");
 		}
-		out.print("</script>");
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}finally{
-		JDBCUtil.close(conn, pstmt, rs);
-	}
+	out.print("</script>");		
 	%>
 </body>
 </html>

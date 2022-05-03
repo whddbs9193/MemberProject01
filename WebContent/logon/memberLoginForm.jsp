@@ -64,7 +64,6 @@ font-size: 16px; font-weight: bold; cursor:pointer; margin-top: 25px; margin-bot
 			<a href="../member/memberJoinForm.jsp">회원가입</a>
 		</div>
 	</form>
-	
 </div>
 </body>
 </html>

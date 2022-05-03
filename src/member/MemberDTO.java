@@ -1,7 +1,8 @@
 package member;
 
-//useBean 액션태그에서 사용 -> 데이터의 이동에서 사용
-public class Member {
+// DTO, VO, DataBean
+// useBean 액션태그에서 사용 -> 데이터의 이동에서 사용
+public class MemberDTO {
 	// 프로퍼티 (property) -> 멤버변수
 	// 아이디, 비밀번호, 이름, 이메일, 전화번호, 주소
 	private String id;

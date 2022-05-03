@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="member.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원정보수정 폼</title>
+<title>회원 정보 확인</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Paytone+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
@@ -19,6 +20,8 @@ table{width: 100%; border:1px solid black; border-collapse: collapse;}
 tr{height: 65px; }
 th,td{border: 1px solid black; padding-left: 5px}
 th{background: #ced4da;}
+.c_id{background-color: #ccc;}
+.s_id{color: red; font-size:0.9em;}
 .addr_row{height: 100px;}
 .addr_row input{margin: 2px 0;}
 #btn_address{width: 100px; height:28px; border: none; background: #2f9177; color: white; font-size: 12px;
@@ -33,7 +36,7 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded",function(){
-		let form = document.updateForm;
+		let form = document.infoForm;
 		let id = form.id;
 		let pwd = form.pwd;
 		let pwd2 = form.pwd2;
@@ -95,8 +98,8 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 				}
 			}).open();
 		})
-		
-		// 회원 수정 페이지의 전체 내용 입력 유무에 따른 유효성 검사와 페이지 이동 처리
+		// 회원 정보 수정 버튼을 클릭할 때
+		// 회원 정보 수정 페이지의 전체 내용 입력 유무에 따른 유효성 검사와 페이지 이동 처리
 		let btn_update = document.getElementById("btn_update");
 		btn_update.addEventListener("click",function(){
 			if(pwd.value.length == 0){
@@ -141,29 +144,68 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 			}
 			form.submit();
 		})
+		
+		// 회원탈퇴 버튼을 클릭할떄 회원탈퇴(삭제)
+		let btn_delete = document.getElementById("btn_delete");
+		btn_delete.addEventListener("click",function(){
+			let form = document.infoForm;
+			if(!form.id.value){
+				alert('아이디를 입력하시오');
+				form.id.focus();
+				return;
+			}
+			if(!form.pwd.value){
+				alert('비밀번호를 입력하시오!');
+				form.pwd.focus();
+				return;
+			}
+			
+			if(!form.pwd2.value){
+				alert('비밀번호 확인을 입력하시오!');
+				form.pwd2.focus();
+				return;
+			}
+			if(pwd.value != pwd2.value){
+				alert('비밀번호를 올바르게 입력하시오!');
+				form.pwd2.focus();
+				return;
+			}
+			form.action = 'memberDeletePro.jsp';
+			form.submit();
+		})
 	})
 </script>
 </head>
 <body>
 <%
+String memberId = (String)session.getAttribute("memberId");
+
+if(memberId == null){
+	out.print("<script>location='../logon/memberLoginForm.jsp'</script>");
+}
+// 아래는 세션 memberID가 있을때
+MemberDAO memberDAO = MemberDAO.getInstance();
+MemberDTO member = new MemberDTO();
+member = memberDAO.getMember(memberId);
 
 %>
 <div id="container">
 	<div class="m_title"><a href="#">EZEN MALL</a></div>
-	<div class="s_title">회원 정보 수정</div>
+	<div class="s_title">회원정보 확인</div>
 	
-	<form action="memberUpdatePro.jsp" method="post" name="updateForm">
+	<form action="memberUpdatePro.jsp" method="post" name="infoForm">
 		<table>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="id" size="15">
+					<input type="text" name="id" size="15" value="<%=member.getId()%>" class="c_id" readonly>
+					&ensp;<span class="s_id">아이디는 변경 불가</span>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" name="pwd" size="15"><br>
+					<input type="password" name="pwd" size="15" value="<%=member.getPwd()%>"><br>
 					<span id="chk_pwd"></span>
 				</td>
 			</tr>
@@ -176,18 +218,18 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 			</tr>
 			<tr>
 				<th>이름</th>
-				<td><input type="text" name="name" size="15"></td>
+				<td><input type="text" name="name" size="15" value="<%=member.getName()%>"></td>
 			</tr>
 			<tr>
 				<th>이메일</th>
 				<td>
-					<input type="text" name="email" size="30"><br>
+					<input type="text" name="email" size="30" value="<%=member.getEmail() %>"><br>
 					<span id="chk_email"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>전화번호</th>
-				<td><input type="text" name="tel" size="20"></td>
+				<td><input type="text" name="tel" size="20" value="<%=member.getTel()%>"></td>
 			</tr>
 			<tr class="addr_row">
 				<th>주소</th>
@@ -200,10 +242,9 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 		</table>
 		<div class="btns">
 			<input type="button" value="회원정보수정" id="btn_update">&emsp;&emsp;
-			<input type="button" value="취소" id="btn_cancel">
+			<input type="button" value="회원탈퇴" id="btn_delete">
 		</div>
 	</form>
 </div>
-
 </body>
 </html>

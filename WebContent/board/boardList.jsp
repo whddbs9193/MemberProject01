@@ -29,8 +29,8 @@ if(memberId == null){
 <div id="container">
 	<div class="m_title"><a href="#">EZEN MALL</a></div>
 	<div class="s_title">전체 게시판</div><br>
-	<div class="top_info" ><a href=""><span class="s_id"><%=memberId %>님</span></a>&emsp;
-	|&emsp;<a href="#">로그아웃</a> </div>
+	<div class="top_info" ><span class="s_id"><a href="../member/memberInfoForm.jsp"><%=memberId %>님</span></a>&emsp;
+	|&emsp;<a href="../logon/memberLogout.jsp">로그아웃</a> </div>
 </div>
 </body>
 </html>
