@@ -119,6 +119,7 @@ public class MemberDAO {
 				member.setEmail(rs.getString("email"));
 				member.setTel(rs.getString("tel"));
 				member.setAddress(rs.getString("address"));
+				member.setRegDate(rs.getTimestamp("regDate"));
 				
 			}
 			

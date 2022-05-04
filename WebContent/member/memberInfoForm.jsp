@@ -239,6 +239,10 @@ member = memberDAO.getMember(memberId);
 					<input type="text" name="address2" size="48">
 				</td>
 			</tr>
+			<tr>
+				<th>가입 일시</th>
+				<td><%=member.getRegDate() %></td>
+			</tr>
 		</table>
 		<div class="btns">
 			<input type="button" value="회원정보수정" id="btn_update">&emsp;&emsp;

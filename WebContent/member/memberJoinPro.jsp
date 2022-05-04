@@ -22,6 +22,7 @@
 	MemberDAO memberDAO = MemberDAO.getInstance();
 	int cnt = memberDAO.insertMember(member);	
 	%>
+	
 	<script>
 	<%if(cnt > 0) {%> <%-- cnt가 1, 데이터 추가에 성공한 --%>
 		alert('회원 가입에 성공하였습니다.');

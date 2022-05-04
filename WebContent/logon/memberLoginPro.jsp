@@ -18,7 +18,7 @@
 	
 	//-1: 아이디가 없다, 0 아이디는 있고 비밀번호가 다르다, 1 아이디,비밀번호 모두 일치
 	out.print("<script>");
-		if(cnt == 1){ // 아이디가 있고, 비밀번호가 일치할 때 -> 중요한 점. 세션생성
+		if(cnt == 1){ // 아이디가 있고, 비밀번호가 일치할 때 -> 중요한 점. 세션생성l-
 			session.setAttribute("memberId", id);
 			out.print("alert('로그인 되었습니다.');");
 			out.print("location='../board/boardList.jsp'");
