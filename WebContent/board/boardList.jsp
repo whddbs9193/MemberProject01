@@ -26,14 +26,15 @@ table{width: 100%; border: 1px solid black; border-collapse: collapse;}
 tr{height: 30px;}
 th, td{border: 1px solid black;}
 th{background-color: #ced4da;}
-td{ }
+tr:nth-child(2n){background-color:  #f8f9fa;}
 .center{text-align: center;}
 .left{padding-left: 5px;}
-
+.left a:hover{font-weight: bold; color: #32708d;}
 </style>
 </head>
 <body>
 <%
+//세션이 없을때 로그인 폼으로 돌아감
 String memberId = (String)session.getAttribute("memberId");
 if(memberId == null){
 	out.print("<script>location='../logon/memberLoginForm.jsp'</script>");
@@ -46,11 +47,10 @@ BoardDAO boardDAO = BoardDAO.getInstance();
 List<BoardDTO> boardList =  boardDAO.getBoardList();
 int number = boardList.size();
 %>
-
 <div id="container">
 	<div class="m_title"><a href="#">EZEN MALL</a></div>
 	<div class="s_title">전체 게시판</div><br>
-	<div class="top_info" >
+	<div class="top_info">
 		<span class="s_id"><a href="../member/memberInfoForm.jsp"><%=memberId %>님</a></span>
 		&emsp;|&emsp;<span class="s_logout"><a href="../logon/memberLogout.jsp">로그아웃</a></span>
 		&emsp;|&emsp;<span class="s_write"><a href="boardWriteForm.jsp">글등록</a></span>

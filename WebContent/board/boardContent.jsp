@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="board.*" %>>
+<%@ page import="board.*, java.text.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +22,7 @@ th,td{border: 1px solid black;}
 th{background: #ced4da;}
 td{padding:5px;}
 .content_row{height: 300px;}
+.content_row td{vertical-align:baseline;}
 /* 하단 - 버튼 */
 .btns{text-align: center; margin-top: 20px}
 .btns input{width: 100px; height: 35px; border: none; background: black; color:white;
@@ -30,24 +31,48 @@ font-weight: bold; cursor: pointer;}
 <script>
 	document.addEventListener("DOMContentLoaded",function(){
 		let form = document.contentForm;
+		let num = form.num.value;
+		let btn_update = document.getElementById("btn_update");
+		let btn_delete = document.getElementById("btn_delete");
+		
+		// 로그인한 회원과 글작성자가 같지 않을 때 -> 글 수정 버튼과 글 삭제 버튼이 나타나지 않도록 설정
+		if(form.id.value != form.writer.value){
+			btn_update.style.display = "none";
+			btn_delete.style.display = "none";
+		}
 		
 		// 글 수정 버튼을 클릭할 때
-		let btn_update = document.getElementById("btn_update")
+		//let btn_update = document.getElementById("btn_update");
 		btn_update.addEventListener("click",function(){
-			if(!form.subject.value){
-				alert("제목을 입력하시오.");
-				form.subject.focus();
+			// 로그인한 회원이 글작성자인지를 파악하는 구문
+			if(form.id.value == form.writer.value){
+				location = 'boardUpdateForm.jsp?num=' + num;
+			}else{
+				alert('글작성자가 아니면 글을 수정할 수 없습니다.');
 				return;
 			}
-			if(!form.content.value){
-				alert("내용을 입력하시오.");
-				form.content.focus();
-				return;
-			}
-			form.submit();
 		})
 		
-		// 전체 게시글 버튼을 클릭할 때
+		// 글 삭제 버튼을 클릭할 때
+		//let btn_delete = document.getElementById("btn_delete");
+		btn_delete.addEventListener("click",function(){
+			// 로그인한 회원이 글작성자인지를 파악하는 구문 -> 같지 않으면 이동 불가
+			if(form.id.value == form.writer.value){
+				location = 'boardDeleteForm.jsp?num=' + num;
+			}else{
+				alert('글작성자가 아니면 글을 삭제할 수 없습니다.');
+				return;
+			}
+			
+		})
+		
+		// 댓글 작성 버튼을 클릭할 때
+		let btn_review = document.getElementById("btn_review");
+		btn_review.addEventListener("click",function(){
+			
+		})
+		
+		// 게시글 보기 버튼을 클릭할 때
 		let btn_boardList = document.getElementById("btn_boardList");
 		btn_boardList.addEventListener("click",function(){
 			location = 'boardList.jsp';
@@ -58,16 +83,26 @@ font-weight: bold; cursor: pointer;}
 </head>
 <body>
 <%
+String memberId = (String)session.getAttribute("memberId");
+if(memberId == null){
+	out.print("<script>location = '../logon/memberLoginForm.jsp'</script>");
+}
+
+
 int num =Integer.parseInt(request.getParameter("num"));
 BoardDAO boardDAO = BoardDAO.getInstance();
 BoardDTO board = boardDAO.getBoard(num);
 
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 %>
 <div id="container">
 	<div class="m_title"><a href="#">EZEN MALL</a></div>
-	<div class="s_title">글 등록</div><br>
+	<div class="s_title">글 상세 보기</div><br>
 	
 	<form action="#" method="post" name="contentForm">
+		<input type="hidden" name="num" value="<%=board.getNum() %>">
+		<input type="hidden" name="id" value="<%=memberId %>"> <%-- 로그인한 멤버 --%>
+		<input type="hidden" name="writer" value="<%=board.getWriter() %>"> <%-- 글작성자 --%>
 		<table>
 			<tr>
 				<th width="15%">글번호</th>
@@ -87,7 +122,7 @@ BoardDTO board = boardDAO.getBoard(num);
 			</tr>
 			<tr>
 				<th>등록일</th>
-				<td><%=board.getRegDate() %></td>
+				<td><%=sdf.format(board.getRegDate()) %></td>
 			</tr>
 			<tr>
 				<th>조회수</th>

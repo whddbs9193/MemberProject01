@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="member.*" %>
+<%@ page import="member.*, java.text.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -170,8 +170,14 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 				form.pwd2.focus();
 				return;
 			}
-			form.action = 'memberDeletePro.jsp';
-			form.submit();
+			let answer = confirm('정말 회원을 탈퇴하겠습니까?');
+			if(answer){
+				form.action = 'memberDeletePro.jsp';
+				form.submit();
+			}else{
+				return;
+			}
+			
 		})
 	})
 </script>
@@ -179,6 +185,7 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 <body>
 <%
 String memberId = (String)session.getAttribute("memberId");
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 
 if(memberId == null){
 	out.print("<script>location='../logon/memberLoginForm.jsp'</script>");
@@ -241,7 +248,7 @@ member = memberDAO.getMember(memberId);
 			</tr>
 			<tr>
 				<th>가입 일시</th>
-				<td><%=member.getRegDate() %></td>
+				<td><%=sdf.format(member.getRegDate()) %></td>
 			</tr>
 		</table>
 		<div class="btns">
