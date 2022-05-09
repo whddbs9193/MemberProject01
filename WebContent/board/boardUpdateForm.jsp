@@ -49,9 +49,10 @@ font-weight: bold; cursor: pointer;}
 		})
 		
 		// 전체 게시글 버튼을 클릭할 때
+		let pageNum = form.pageNum.value;
 		let btn_boardList = document.getElementById("btn_boardList");
 		btn_boardList.addEventListener("click",function(){
-			location = 'boardList.jsp';
+			location = 'boardList.jsp?pageNum=' + pageNum;
 		})
 	})
 </script>
@@ -64,6 +65,7 @@ if(memberId == null){
 	out.print("<script>location = '../logon/memberLoginForm.jsp'</script>");
 }
 
+String pageNum = request.getParameter("pageNum");
 int num = Integer.parseInt(request.getParameter("num"));
 
 //
@@ -72,10 +74,11 @@ BoardDTO board = boardDAO.getBoardUpdateForm(num);
 
 %>
 <div id="container">
-	<div class="m_title"><a href="#">EZEN MALL</a></div>
+	<div class="m_title"><a href="boardList.jsp">EZEN MALL</a></div>
 	<div class="s_title">글 수정</div><br>
 	
 	<form action="boardUpdatePro.jsp" method="post" name="updateForm">
+		<input type="hidden" name="pageNum" value="<%=pageNum %>">
 		<input type="hidden" name="num" value="<%=num %>">
 		<table>
 			<tr>

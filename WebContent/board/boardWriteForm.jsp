@@ -14,6 +14,7 @@ input[type="text"], input[type="password"]{ height: 20px;}
 /* 상단 - 메인, 서브 타이틀 */
 .m_title{font-family: 'Paytone One', sans-serif; font-size: 3em; text-align: center;}
 .s_title{font-family: 'Do Hyeon', sans-serif; font-size: 2em; text-align: center; margin-bottom:30px;}
+.s_title_re{color: #705e7b;}
 /* 본문 - 테이블*/
 table{width: 100%; border: 1px solid black; border-collapse: collapse;}
 tr{height: 50px;}
@@ -27,6 +28,7 @@ td{padding-left:5px;}
 .btns{text-align: center; margin-top: 20px}
 .btns input{width: 110px; height: 35px; border: none; background: black; color:white;
 font-weight: bold; cursor: pointer;}
+.btns .btn_write_re{background: #705e7b;}
 </style>
 <script>
 	document.addEventListener("DOMContentLoaded",function(){
@@ -52,7 +54,6 @@ font-weight: bold; cursor: pointer;}
 		btn_boardList.addEventListener("click",function(){
 			location = 'boardList.jsp';
 		})
-		
 	})
 </script>
 </head>
@@ -77,13 +78,16 @@ if(request.getParameter("num") != null){
 	ref = Integer.parseInt(request.getParameter("ref"));
 	re_step = Integer.parseInt(request.getParameter("re_step"));
 	re_level = Integer.parseInt(request.getParameter("re_level"));
-	re = "[댓글]"; //댓글이면 제목란에 찍힘.
+	re = "[re] "; //댓글이면 제목란에 찍힘.
 }
 %>
 <div id="container">
-	<div class="m_title"><a href="#">EZEN MALL</a></div>
+	<div class="m_title"><a href="boardList.jsp">EZEN MALL</a></div>
+	<%if(request.getParameter("num") != null){%>
+	<div class="s_title s_title_re">댓글 등록</div><br>
+	<%}else {%>
 	<div class="s_title">글 등록</div><br>
-	
+	<%} %>
 	<form action="boardWritePro.jsp" method="post" name="writeForm">
 		<input type="hidden" name="num" value="<%=num %>">
 		<input type="hidden" name="ref" value="<%=ref %>">
@@ -104,8 +108,12 @@ if(request.getParameter("num") != null){
 			</tr>
 		</table>
 		<div class="btns">
-			<input type="button" value="글 등록" id="btn_write">&emsp;&emsp;
-			<input type="button" value="게시글 보기" id="btn_boardList">
+			<%if(request.getParameter("num") != null){%>
+				<input type="button" value="댓글 등록" id="btn_write" class="btn_write_re">
+			<%}else {%>
+				<input type="button" value="글 등록" id="btn_write">
+			<%} %>
+			&emsp;&emsp;<input type="button" value="게시글 보기" id="btn_boardList">
 		</div>
 	</form>
 </div>

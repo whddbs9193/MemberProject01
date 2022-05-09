@@ -17,10 +17,9 @@ String pwd = request.getParameter("pwd");
 
 BoardDAO boardDAO = BoardDAO.getInstance();
 int cnt = boardDAO.deleteBoard(num, writer, pwd);
-
-// cnt가 1이면 삭제 성공, cnt가 0이면 삭제 실패
 %>
-<script>
+
+<script> <%-- cnt가 1이면 삭제 성공, cnt가 0이면 삭제 실패 --%>
 <%if(cnt>0){%>
 	alert('글 삭제에 성공하였습니다.');
 <%}else{ %>

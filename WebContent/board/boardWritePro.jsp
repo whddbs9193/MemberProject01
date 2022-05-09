@@ -9,7 +9,7 @@
 </head>
 <body>
 <%request.setCharacterEncoding("utf-8");%>
-<jsp:useBean id="board" class=board.BoardDTO />
+<jsp:useBean id="board" class="board.BoardDTO" />
 <jsp:setProperty property="*" name="board"/>
 <%
 BoardDAO boardDAO = BoardDAO.getInstance();
