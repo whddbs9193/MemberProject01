@@ -12,10 +12,15 @@
 <jsp:useBean id="board" class="board.BoardDTO" />
 <jsp:setProperty property="*" name="board"/>
 <%
+String pageNum = request.getParameter("pageNum");
+if(pageNum == null) pageNum = "1";
 BoardDAO boardDAO = BoardDAO.getInstance();
 boardDAO.insertBoard(board);
 
-response.sendRedirect("boardList.jsp");
+response.sendRedirect("boardList.jsp?pageNum=" + pageNum);
 %>
+<script>
+
+</script>
 </body>
 </html>

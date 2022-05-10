@@ -12,7 +12,8 @@
 <jsp:useBean id="board" class="board.BoardDTO" />
 <jsp:setProperty property="*" name="board"/>
 <%
-String pageNum=request.getParameter("pageNum");
+String pageNum = request.getParameter("pageNum");
+
 BoardDAO boardDAO = BoardDAO.getInstance();
 boardDAO.updateBoard(board);
 response.sendRedirect("boardList.jsp?pageNum="+ pageNum);

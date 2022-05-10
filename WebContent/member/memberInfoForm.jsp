@@ -197,8 +197,8 @@ member = memberDAO.getMember(memberId);
 
 %>
 <div id="container">
-	<div class="m_title"><a href="#">EZEN MALL</a></div>
-	<div class="s_title">회원정보 확인</div>
+	<div class="m_title"><a href="../board/boardList.jsp">EZEN MALL</a></div>
+	<div class="s_title">회원 정보 확인</div>
 	
 	<form action="memberUpdatePro.jsp" method="post" name="infoForm">
 		<table>

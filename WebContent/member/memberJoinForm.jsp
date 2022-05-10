@@ -34,7 +34,6 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
-	//let isChk = false; // 전역변수
 	document.addEventListener("DOMContentLoaded",function(){
 		let form = document.joinForm;
 		let id = form.id;
@@ -50,7 +49,6 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 		// ID 중복 체크 버튼 - DB 작업: member 테이블에 똑같은 id가 있는지를 검사
 		let btn_chk_id = document.getElementById("btn_chk_id");
 		btn_chk_id.addEventListener("click",function(){
-			//isChk = true;
 			if(id.value.length < 4){ //아이디를 4글자 미만을 입력했 때
 				alert('아이디를 4글자 이상 입력해 주세요.');
 				id.focus();
@@ -61,7 +59,7 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 		
 		
 		// 비밀번호 - pwd
-		// 비밀번호 유효성 검사 - 8글자 이상이 비밀번호를 생성
+		// 비밀번호 유효성 검사 - 4글자 이상이 비밀번호를 생성
 		let chk_pwd = document.getElementById("chk_pwd");
 		pwd.addEventListener("keyup", function(){
 			if(pwd.value.length < 4){
@@ -120,13 +118,6 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 				id.focus();
 				return;
 			}
-			/*
-			if(!isChk){
-				alert('아이디 중복 체크를 하시오!');
-				id.focus();
-				return;
-			}
-			*/
 			if(pwd.value.length == 0){
 				alert('비밀번호를 입력하시오!');
 				pwd.focus();
@@ -175,7 +166,7 @@ font-size: 1.1em; font-weight: bold; cursor: pointer; border-radius: 5px}
 </head>
 <body>
 <div id="container">
-	<div class="m_title"><a href="#">EZEN MALL</a></div>
+	<div class="m_title"><a href="../board/boardList.jsp">EZEN MALL</a></div>
 	<div class="s_title">회원가입</div>
 	
 	<form action="memberJoinPro.jsp" method="post" name="joinForm">

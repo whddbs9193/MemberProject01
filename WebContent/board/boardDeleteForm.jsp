@@ -44,9 +44,11 @@ font-weight: bold; cursor: pointer;}
 				return;
 			}
 		})
+		
+		let pageNum = form.pageNum.value;
 		let btn_boardList = document.getElementById("btn_boardList");
 		btn_boardList.addEventListener("click",function(){
-			location = 'boardList.jsp';
+			location = 'boardList.jsp?pageNum=' + pageNum;
 		})
 	})
 </script>
@@ -59,13 +61,14 @@ String memberId = (String)session.getAttribute("memberId");
 if(memberId == null){
 	out.print("<script>location = '../logon/memberLoginForm.jsp'</script>");
 }
-
+String pageNum = request.getParameter("pageNum");
 int num = Integer.parseInt(request.getParameter("num"));
 %>
 <div id="container">
 	<div class="m_title"><a href="boardList.jsp">EZEN MALL</a></div>
 	<div class="s_title">글 삭제</div><br>
 	<form action="boardDeletePro.jsp" method="post" name="deleteForm">
+		<input type="hidden" name="pageNum" value="<%=pageNum %>">
 		<input type="hidden" name="num" value="<%=num %>">
 		<div class="c_login">
 			<div class="c_writer">

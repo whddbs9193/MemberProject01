@@ -11,18 +11,18 @@
 	<%
 	String id = request.getParameter("id");
 	String pwd = request.getParameter("pwd");
-	
+
 	MemberDAO memberDAO = MemberDAO.getInstance();
 	int cnt = memberDAO.deleteMember(id, pwd);
 	%>
 	<script>
-	<%if(cnt > 0){%> <%-- 삭제 완료 --%>
+	<%if (cnt > 0) {%> <%-- 삭제 완료 --%>
 		alert('회원 탈퇴 완료!');
 		location = '../logon/memberLoginForm.jsp';
-	<%}else{ %>
+	<%} else {%>
 		alert('회원 탈퇴 실패');
 		history.back();
-	<%} %>
+	<%}%>
 	</script>
 </body>
 </html>

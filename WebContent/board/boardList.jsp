@@ -59,9 +59,7 @@ if(pageNum == null) pageNum = "1";  // 페이지가 없다면 첫페이지이다
 int currentPage = Integer.parseInt(pageNum);  // 현재 페이지
 int startRow = (currentPage -1) * pageSize +1;  // 현재 페이지의 첫번째 행
 int endRow = currentPage * pageSize; // 현재 페이지의 마지막 행
-
-//######################################################
-
+//#######################################################
 
 // 게시판 전체 정보를 획득
 BoardDAO boardDAO = BoardDAO.getInstance();

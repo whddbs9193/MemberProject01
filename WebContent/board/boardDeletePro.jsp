@@ -10,7 +10,7 @@
 <body>
 <%
 request.setCharacterEncoding("utf-8");
-
+String pageNum = request.getParameter("pageNum");
 int num = Integer.parseInt(request.getParameter("num"));
 String writer = request.getParameter("writer");
 String pwd = request.getParameter("pwd");
@@ -25,7 +25,7 @@ int cnt = boardDAO.deleteBoard(num, writer, pwd);
 <%}else{ %>
 	alert('글 삭제에 실패하였습니다.');
 <%} %>
-location = 'boardList.jsp'
+location = 'boardList.jsp?pageNum=' + <%=pageNum %>;
 </script>
 </body>
 </html>
